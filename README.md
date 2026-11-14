@@ -29,4 +29,4 @@ DuplicarPuntos: que multiplica tu puntaje.
 BonusPorFigura: que te da puntos extra por cada J, Q o K.
 SeguroDePasarse: que te perdona una vez si te pasas de 21.
 
-<img src="VIGINTOUS.png" alt="logo" width="600">
+<img src="VIGINTOUS.jpg" alt="logo" width="600">
