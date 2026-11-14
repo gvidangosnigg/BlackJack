@@ -1,0 +1,3 @@
+public enum Momento {
+    AL_REPARTIR, AL_PEDIR_CARTA, AL_CALCULAR_PUNTOS, AL_GANAR
+}
