@@ -13,5 +13,10 @@ public class DuplicarPuntos implements Habilidad {
     public Momento getMomento() { return Momento.AL_GANAR; }
 
     @Override
+    public String getDescripcion() {
+        return "Al ganar una ronda, tu ganancia se multiplica por " + (int) factor + ".";
+    }
+
+    @Override
     public String getNombre() { return "Duplicar Puntos"; }
 }

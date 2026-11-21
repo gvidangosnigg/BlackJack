@@ -4,6 +4,7 @@ import java.util.List;
 public class Juego {
     private Mazo mazo = new Mazo();
     private List<Jugador> jugadores = new ArrayList<>();
+    private int ultimoResultado; // >0 gana el humano, 0 empate, <0 pierde
 
     public Juego(Jugador humano) {
         jugadores.add(humano);
@@ -53,6 +54,7 @@ public class Juego {
             else if (mc.esBlackjack() && !mj.esBlackjack()) resultado = -1;
             else resultado = Integer.compare(vj, vc);
 
+            if (j == getHumano()) ultimoResultado = resultado;
             ContextoRonda ctx = j.getContexto();
             if (resultado > 0) {
                 j.usarHabilidades(Momento.AL_GANAR);
@@ -76,6 +78,8 @@ public class Juego {
         for (Jugador j : jugadores) todos.addAll(j.retirarEventos());
         return todos;
     }
+
+    public int getUltimoResultado() { return ultimoResultado; }
 
     public List<Jugador> getJugadores() { return jugadores; }
 

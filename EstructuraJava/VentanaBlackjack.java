@@ -5,6 +5,7 @@ import java.util.List;
 public class VentanaBlackjack extends JFrame {
     private static final Color MESA = new Color(0x0B6623);
 
+    private final Estadisticas stats = new Estadisticas();
     private Juego juego;
     private Jugador humano;
     private Crupier crupier;
@@ -26,6 +27,7 @@ public class VentanaBlackjack extends JFrame {
         super("Blackjack con habilidades");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         construirUI();
+        mostrarBienvenida();
         nuevaPartida();
         pack();
         setMinimumSize(new Dimension(760, 640));
@@ -92,14 +94,30 @@ public class VentanaBlackjack extends JFrame {
         return p;
     }
 
+    private void mostrarBienvenida() {
+        String msg;
+        if (!stats.hayHistorial()) {
+            msg = "¡Bienvenido a Blackjack!\n\n"
+                + "Reglas:\n"
+                + "- Acércate a 21 sin pasarte.\n"
+                + "- Las figuras valen 10 y el As vale 11 u 1.\n"
+                + "- Blackjack (21 con dos cartas) paga 3:2.\n"
+                + "- El crupier pide carta con 16 o menos y se planta con 17 o más.\n"
+                + "- Las habilidades te dan ventajas especiales durante la ronda.";
+        } else {
+            msg = "Bienvenido de nuevo:\npartidas ganadas: " + stats.getGanadas()
+                + ", perdidas: " + stats.getPerdidas();
+        }
+        JOptionPane.showMessageDialog(this, msg, "Blackjack", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     private void nuevaPartida() {
         humano = new Jugador("Jugador", 500);
-        humano.agregarHabilidad(new DuplicarPuntos());
-        humano.agregarHabilidad(new BonusPorFigura());
-        humano.agregarHabilidad(new SeguroDePasarse());
+        List<Habilidad> elegidas = DialogoHabilidades.elegir(this);
+        for (Habilidad h : elegidas) humano.agregarHabilidad(h);
         juego = new Juego(humano);
         crupier = juego.getCrupier();
-        log.setText("¡Bienvenido! Tienes 500 fichas y 3 habilidades\n");
+        log.setText("¡Bienvenido! Tienes 500 fichas y " + elegidas.size() + " habilidad(es)\n");
         panelCrupier.setMano(null, false);
         panelJugador.setMano(null, false);
         modoApuesta();
@@ -142,6 +160,8 @@ public class VentanaBlackjack extends JFrame {
         juego.jugarRonda();
         String resultado = juego.determinarGanador();
         volcarEventos();
+        if (juego.getUltimoResultado() > 0) stats.registrarVictoria();
+        else if (juego.getUltimoResultado() < 0) stats.registrarDerrota();
         log.append(resultado + "\n");
         modoApuesta();
         refrescar();

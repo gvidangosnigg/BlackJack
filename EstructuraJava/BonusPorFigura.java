@@ -18,5 +18,10 @@ public class BonusPorFigura implements Habilidad {
     public Momento getMomento() { return Momento.AL_GANAR; }
 
     @Override
+    public String getDescripcion() {
+        return "Al ganar, recibes " + fichasExtra + " fichas extra por cada figura (J, Q, K) en tu mano.";
+    }
+
+    @Override
     public String getNombre() { return "Bonus por Figura"; }
 }

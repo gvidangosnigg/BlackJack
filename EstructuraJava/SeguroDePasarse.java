@@ -19,5 +19,10 @@ public class SeguroDePasarse implements Habilidad {
     public Momento getMomento() { return Momento.AL_CALCULAR_PUNTOS; }
 
     @Override
+    public String getDescripcion() {
+        return "Si te pasas de 21, recuperas " + DEVOLUCION + " fichas. Se puede usar " + usosRestantes + " veces.";
+    }
+
+    @Override
     public String getNombre() { return "Seguro de Pasarse (" + usosRestantes + " usos)"; }
 }
